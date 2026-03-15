@@ -1,0 +1,13 @@
+services:
+  i2m1:
+    image: icinga/icinga2
+    hostname: &hostname i2m1
+    container_name: *hostname
+    environment:
+      ICINGA_MASTER: 1
+    volumes:
+      - ./setup.sh:/setup.sh
+    #  - ./master/certs:/data/var/lib/icinga2/certs
+    depends_on:
+      - i2m1-icingadb
+    #entrypoint: ["/bin/sh", "-c", "sudo rm -rf /etc/icinga2 && sudo ln -sv /tmp/i2m1/etc /etc/icinga2"]

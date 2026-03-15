@@ -1,0 +1,15 @@
+networks:
+  front-tier:
+    ipam:
+      driver: default
+      # Use the default subnet
+  middle-tier:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.30.0/24
+  back-tier:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.40.0/24

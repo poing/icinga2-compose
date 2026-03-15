@@ -1,0 +1,129 @@
+services:
+
+  i2m1-redis:
+    image: redis
+    hostname: &hostname i2m1-redis
+    container_name: *hostname
+    networks:
+      - front-tier
+
+  i2m2-redis:
+    image: redis
+    hostname: &hostname i2m2-redis
+    container_name: *hostname
+    networks:
+      - front-tier
+
+  icingadb-mariadb:
+    image: mariadb
+    hostname: &hostname icingadb-mariadb
+    container_name: *hostname
+    networks:
+      - front-tier
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: icingadb
+      MYSQL_USER: icingadb
+      MYSQL_PASSWORD: 123456
+
+  i2m1-icingadb:
+    image: icinga/icingadb
+    hostname: &hostname i2m1-icingadb
+    container_name: *hostname
+    networks:
+      - front-tier
+    environment: &icingadb-env
+      ICINGADB_REDIS_PORT: 6379
+      ICINGADB_DATABASE_HOST: icingadb-mariadb
+      ICINGADB_DATABASE_PORT: 3306
+      ICINGADB_DATABASE_DATABASE: icingadb
+      ICINGADB_DATABASE_USER: icingadb
+      ICINGADB_DATABASE_PASSWORD: 123456
+      ICINGADB_REDIS_HOST: i2m1-redis
+    restart: always
+    depends_on:
+      - i2m1-redis
+      - icingadb-mariadb
+
+  i2m2-icingadb:
+    image: icinga/icingadb
+    hostname: &hostname i2m2-icingadb
+    container_name: *hostname
+    networks:
+      - front-tier
+    environment:
+      <<: *icingadb-env
+      ICINGADB_REDIS_HOST: i2m2-redis
+    restart: always
+    depends_on:
+      - i2m2-redis
+      - icingadb-mariadb
+
+  icingaweb-mariadb:
+    image: mariadb
+    hostname: &hostname icingaweb-mariadb
+    container_name: *hostname
+    networks:
+      - front-tier
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: icingaweb
+      MYSQL_USER: icingaweb
+      MYSQL_PASSWORD: 123456
+
+  i2m1:
+    extends:
+      file: ./i2m1/compose.yaml
+      service: i2m1
+    networks:
+      - front-tier
+    volumes: &root-access
+        #- ./i2m1:/mnt/i2m1
+        #- ./i2m2:/mnt/i2m2
+        #- ./i2s1:/mnt/i2s1
+        #- ./i2s2:/mnt/i2s2
+        - ./:/mnt/
+        # Provide root password: 123456
+        - ./root-access/shadow:/etc/shadow # root:123456
+        # Provide sudo access for user: icinga
+        - ./root-access/passwd:/etc/passwd
+        - ./root-access/sudoers:/etc/sudoers
+
+  i2m2:
+    extends:
+      file: ./i2m2/compose.yaml
+      service: i2m2
+    networks:
+      - front-tier  
+    volumes: *root-access
+    
+  i2s1:
+    extends:
+      file: ./i2s1/compose.yaml
+      service: i2s1
+    networks:
+      - front-tier
+      - middle-tier
+    volumes: *root-access        
+
+  i2s2:
+    extends:
+      file: ./i2s2/compose.yaml
+      service: i2s2
+    networks:
+      - front-tier
+      - middle-tier
+    volumes: *root-access        
+
+  icingaweb2:
+    extends:
+      file: ./icingaweb2/compose.yaml
+      service: icingaweb2
+    networks:
+      - front-tier  
+    volumes: *root-access    
+    ports:
+      - '8080:8080'
+
+include:
+  - ./networks.yaml

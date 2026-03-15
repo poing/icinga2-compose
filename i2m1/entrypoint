@@ -1,0 +1,4 @@
+// empty_entrypoint.go
+package main
+
+func main() {}

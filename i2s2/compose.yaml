@@ -1,0 +1,10 @@
+services:
+  i2s2:
+    image: icinga/icinga2
+    hostname: &hostname i2s2
+    container_name: *hostname
+    volumes:
+      - ./setup.sh:/setup.sh
+    depends_on:
+      - i2m1
+      - i2m2      
