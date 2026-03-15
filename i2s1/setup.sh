@@ -49,6 +49,6 @@ update_icinga2_config() {
 }
 
 # Execute functions
-sync_ca_files
-#icinga2 node wizard
-#update_icinga2_config
+#sync_ca_files
+icinga2 node wizard
+update_icinga2_config
