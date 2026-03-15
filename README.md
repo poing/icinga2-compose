@@ -9,6 +9,23 @@ cd icinga2-compose
 docker compose up
 ```
 
+### Quick Setup
+
+This was created using Docker Desktop.  Connect to the _exec_ on each Icinga2 container and run `setup.sh`.  For Master 2, you will need to run it __twitce__.  _Detailed steps below.
+
+### Icinga Web
+
+Once the containers are running, you can connect to [Icinga Web 2](http://localhost:8080).
+
+- __Username:__ `icingaadmin`
+- __Password:__ `123456`
+
+Best view via Problems > Service Grid (Problems Only = `false`)
+
+![](img/grid.png){ width = 50% }
+
+## Detailed Setup Steps
+
 ### Setup Icinga 2 Master 1 (`i2m1`)
 
 ```sh
@@ -19,12 +36,7 @@ docker compose up
 - Replaces the `/etc/icinga2` _symlink_
     - __Container restart required!__
     
-After the container restarts, `i2m1` is a _generic_ master.  Connect to [Icinga Web 2](http://localhost:8080).
 
-- __Username:__ `icingaadmin`
-- __Password:__ `123456`
-
-Best view via Problems > Service Grid (Problems Only = `false`)
     
 ### Setup Icinga 2 Master 2 (`i2m2`)
 
