@@ -7,6 +7,5 @@ services:
       ICINGA_MASTER: 1
     volumes:
       - ./setup.sh:/setup.sh
-    #  - ./master/certs:/data/var/lib/icinga2/certs
     depends_on:
       - i2m1-icingadb

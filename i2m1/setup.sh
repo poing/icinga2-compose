@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Fix root access permissions for all
+chown -Rf 0:0 /mnt/root-access
+
 # Define source and destination files
 SOURCE_DIR="/var/lib/icinga2/ca/"
 DEST_DIR="/mnt/i2m1/ca/"
