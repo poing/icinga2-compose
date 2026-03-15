@@ -42,6 +42,9 @@ Best view via Problems > Service Grid
 ```
 
 - Begins `icinga2 node wizard`
+
+    We want to enable CSR Auto-Signing.  Tickets need to be generated on the master and copied to client setup wizards.
+
     - Specify `i2m2` as __`agent/satellite`__ _default `[Y/n]`_
     - Specify the parent endpoint __`i2m1`__
     - Connection to the parent? _default `[Y/n]`_
