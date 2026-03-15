@@ -9,11 +9,16 @@ cd icinga2-compose
 docker compose up
 ```
 
-You can use `docker compose down` to start over.
-
 ### Quick Setup
 
 This was created using Docker Desktop.  Connect to the _exec_ on each Icinga2 container and run `setup.sh`.  For Master 2, you will need to run it __twice__.  _Detailed steps below._
+
+### Undo the Setup
+
+```sh
+docker compose down
+docker compose up
+```
 
 ### Icinga Web
 
