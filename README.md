@@ -15,11 +15,17 @@ docker compose up
 
 This was created using Docker Desktop.  Connect to the _exec_ on each Icinga2 container and run `setup.sh`.  For Master 2, you will need to run it __twice__.  _Detailed steps below._
 
+- `i2m1`: Master 1
+- `i2m2`: Master 2 _(run `setup.sh` twice)_
+- `i2s1`: Satellite 1
+- `i2s2`: Satellite 2
+
+
 ### Undo the Setup
 
 ```sh
 docker compose down
-docker compose up
+docker compose up # Run setup.sh again for each
 ```
 
 ### Icinga Web
