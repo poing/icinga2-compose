@@ -14,12 +14,14 @@ docker compose up
     ./setup.sh
     ```
     
-    a. Copies the `ca` for use by Master 2 (i2m2)
-    
-    b. Replaces `/etc/icinga2`
+    - Copies the `ca` for use by Master 2 (i2m2)
+    - Replaces `/etc/icinga2` _symlink_
     
 2. Setup Master 2 (i2m2)
 
     ```sh
-    ./setup.sh
+    ./setup.sh # Need to run multiple times
     ```
+    
+    1. - aa
+    1. - bb
