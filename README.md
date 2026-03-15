@@ -20,7 +20,7 @@ docker compose up
         
     After the container restarts, `i2m1` is a _generic_ master.
     
-    Connect to [Icinga Web 2](http://localhost:8080){:target="_blank"}
+    Connect to [Icinga Web 2](http://localhost:8080)
     
 2. Setup Master 2 (i2m2)
 
