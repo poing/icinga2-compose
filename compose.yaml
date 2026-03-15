@@ -83,6 +83,8 @@ services:
         #- ./i2s1:/mnt/i2s1
         #- ./i2s2:/mnt/i2s2
         - ./:/mnt/
+        
+        #- ./:/mnt/
         # Provide root password: 123456
         - ./root-access/shadow:/etc/shadow # root:123456
         # Provide sudo access for user: icinga

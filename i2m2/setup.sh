@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Define source and destination files
-SOURCE_DIR="/mnt/master/ca/"
+SOURCE_DIR="/mnt/i2m1/ca/"
 DEST_DIR="/var/lib/icinga2/ca/"
 
 SOURCE_CRT="${SOURCE_DIR}ca.crt"
