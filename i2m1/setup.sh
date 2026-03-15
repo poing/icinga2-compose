@@ -1,28 +1,8 @@
 #!/bin/bash
 
-# icinga2 feature enable icingadb
-# cp /tmp/i2m1/etc/features-available/icingadb.conf /etc/icinga2/features-available/icingadb.conf 
-# 
-# cp /tmp/i2m1/etc/constants.conf /etc/icinga2/.
-# cp /tmp/i2m1/etc/conf.d/api-users.conf /etc/icinga2/conf.d/.
-# cp /tmp/i2m1/etc/zones.conf /etc/icinga2/zones.conf
-# 
-# icinga2 node setup --zone master --accept-config --accept-commands  --master --disable-confd
-# 
-# cp -Rf /tmp/i2m1/etc/zones.d/master /etc/icinga2/zones.d/.
-# 
-# #icinga2 pki ticket --cn 'i2m2' > /tmp/i2m2/ticket.pki
-# 
-# 
-# sudo apt-get update
-# sudo apt-get install vim -y
-
-
-#!/bin/sh
-
 # Define source and destination files
 SOURCE_DIR="/var/lib/icinga2/ca/"
-DEST_DIR="/mnt/master/ca/"
+DEST_DIR="/mnt/i2m1/ca/"
 
 SOURCE_CRT="${SOURCE_DIR}ca.crt"
 SOURCE_KEY="${SOURCE_DIR}ca.key"
