@@ -20,9 +20,9 @@ Once the containers are running, you can connect to [Icinga Web 2](http://localh
 - __Username:__ `icingaadmin`
 - __Password:__ `123456`
 
-Best view via Problems > Service Grid (Problems Only = `false`)
+Best viewed as Service Grid (Problems Only = `false`)
 
-![](img/grid.png){ width = 50% }
+![](img/grid.png)
 
 ## Detailed Setup Steps
 
