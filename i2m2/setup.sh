@@ -32,7 +32,7 @@ sync_ca_files() {
         echo "Files copied successfully."
         sudo rm /var/lib/icinga2/certs/*
         echo "First step complete."
-        echo "Restart the container and run setup.sh AGAIN!."
+        echo "Restart the container. You need to run setup.sh again!"
     else
         echo "Files match. No action required."
         icinga2 node wizard

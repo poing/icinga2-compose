@@ -3,6 +3,8 @@ services:
     image: icinga/icinga2
     hostname: &hostname i2s1
     container_name: *hostname
+    environment:
+      ICINGA_MASTER: 1
     volumes:
       - ./setup.sh:/setup.sh
     depends_on:
