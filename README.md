@@ -2,6 +2,8 @@
 
 This is a Docker Compose project to create a three level cluster with HA masters, satellites receiving config sync, and agents checked using command endpoint.
 
+> This is a work in progress.  Currently 2 HA Masters and 2 Satellites
+
 ## Usage
 
 ```sh
