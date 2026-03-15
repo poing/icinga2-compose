@@ -1,3 +1,3 @@
 notes.txt
-i2m1/ca/*
-i2s1/ca/*
+i2m1/ca/ca.crt
+i2m1/ca/ca.key
