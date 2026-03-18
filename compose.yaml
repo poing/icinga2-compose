@@ -83,6 +83,7 @@ services:
         #- ./i2s1:/mnt/i2s1
         #- ./i2s2:/mnt/i2s2
         - ./:/mnt/icinga2-compose
+        - ./nrpe/check_nrpe:/usr/lib/nagios/plugins/check_nrpe
         
         #- ./:/mnt/
         # Provide root password: 123456
@@ -127,13 +128,33 @@ services:
     ports:
       - '8080:8080'
 
-  host-one:
+  nrz1:
     restart: on-failure
     build: ./nrpe
-    hostname: &hostname remote1
+    hostname: &hostname nrz1
     container_name: *hostname
+    networks:
+      - middle-tier
+    volumes:
+        - ./:/mnt/
+
+  nrz2:
+    restart: on-failure
+    build: ./nrpe
+    hostname: &hostname nrz2
+    container_name: *hostname
+    networks:
+      - middle-tier
     volumes:
         - ./:/mnt/
         
+#  ddd:
+#    image: debian:12
+#    networks:
+#      - front-tier
+#    volumes:
+#      - ./:/mnt/icinga2-compose
+#    tty: true
+            
 include:
   - ./networks.yaml

@@ -13,7 +13,7 @@ fi
 touch /var/log/nrpe.log
 
 # Start the NRPE service in the background with the specified configuration
-/usr/bin/nrpe -c /etc/nrpe.cfg -f -d &
+/usr/bin/nrpe -c /etc/nrpe.cfg -f -d
 
 # Continuously tail the NRPE log file to keep the container running
 exec tail -n 0 -f /var/log/nrpe.log
