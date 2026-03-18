@@ -82,7 +82,7 @@ services:
         #- ./i2m2:/mnt/i2m2
         #- ./i2s1:/mnt/i2s1
         #- ./i2s2:/mnt/i2s2
-        - ./:/mnt/
+        - ./:/mnt/icinga2-compose
         
         #- ./:/mnt/
         # Provide root password: 123456
@@ -127,5 +127,13 @@ services:
     ports:
       - '8080:8080'
 
+  host-one:
+    restart: on-failure
+    build: ./nrpe
+    hostname: &hostname remote1
+    container_name: *hostname
+    volumes:
+        - ./:/mnt/
+        
 include:
   - ./networks.yaml

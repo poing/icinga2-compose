@@ -7,5 +7,6 @@ services:
       ICINGA_MASTER: 1
     volumes:
       - ./setup.sh:/setup.sh
+      - ./etc:/mnt/icinga2:ro
     depends_on:
       - i2m1-icingadb
