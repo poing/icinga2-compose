@@ -118,6 +118,15 @@ services:
       - middle-tier
     volumes: *root-access        
 
+  i2a1:
+    extends:
+      file: ./i2a1/compose.yaml
+      service: i2a1
+    networks:
+      - middle-tier
+    volumes: *root-access       
+
+
   icingaweb2:
     extends:
       file: ./icingaweb2/compose.yaml

@@ -1,0 +1,13 @@
+services:
+  i2a1:
+    image: icinga/icinga2
+    hostname: &hostname i2a1
+    container_name: *hostname
+    #environment:
+    #  ICINGA_MASTER: 1
+    volumes:
+      - ./setup.sh:/setup.sh
+      - ./etc:/mnt/icinga2:ro      
+    depends_on:
+      - i2m1
+      - i2m2      
