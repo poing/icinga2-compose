@@ -20,6 +20,7 @@ This was created using Docker Desktop.  Connect to the _exec_ on each Icinga2 co
 - `i2s1`: Satellite 1
 - `i2s2`: Satellite 2
 
+**`/etc/icinga2` is set to READ-ONLY.**  Don't make change in the container.  Changes should be made to `./i2m1/etc`.  *This was to prevent `node setup` from over-writing the Docker Compose files.*
 
 ### Undo the Setup
 
