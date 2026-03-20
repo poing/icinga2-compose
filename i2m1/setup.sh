@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fix root access permissions as icinga2 master
-chown -Rf 0:0 /mnt/root-access
+chown -Rf 0:0 /mnt/icinga2-compose/root-access
 
 # Define color codes
 RED='\033[0;31m'
