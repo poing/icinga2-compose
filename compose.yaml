@@ -92,7 +92,9 @@ services:
         # Provide sudo access for user: icinga
         - ./root-access/passwd:/etc/passwd
         - ./root-access/sudoers:/etc/sudoers
-
+    depends_on:
+      - plugins
+      
   i2m2:
     extends:
       file: ./i2m2/compose.yaml
@@ -140,7 +142,9 @@ services:
 
   nrz1:
     restart: on-failure
-    build: ./nrpe
+    build:
+      context: ./nrpe
+      no_cache: true
     hostname: &hostname nrz1
     container_name: *hostname
     networks:
@@ -157,6 +161,21 @@ services:
       - middle-tier
     volumes:
         - ./:/mnt/
+    depends_on:
+      - nrz1
+              
+  plugins:
+    restart: on-failure
+    build:
+      context: ./plugins
+      no_cache: true
+    hostname: &hostname plugins
+    container_name: *hostname
+    networks:
+      - middle-tier
+    volumes:
+      - ./plugins/shared:/shared_plugins
+    tty: true
         
 #  ddd:
 #    image: debian:12
