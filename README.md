@@ -42,6 +42,10 @@ Best viewed as Service Grid (Problems Only = `false`)
 
 ## Detailed Setup Steps
 
+Updated `./setup.sh` to use the `api`.  No need to use `node wizard`.
+
+_Still need to run `./setup.sh` on `i2m2` twice._
+
 ### Setup Icinga 2 Master 1 (`i2m1`)
 
 ```sh

@@ -34,13 +34,13 @@ sync_ca_files() {
 
     # Compare CA certificate and key with destination
     if ! cmp -s "$SOURCE_CRT" "$DEST_CRT" || ! cmp -s "$SOURCE_KEY" "$DEST_KEY"; then
-        echo "Files do not match. Copying to shared location..."
+        echo -e "${BLUE}Files do not match. Updating i2m1 cert...${NC}"
         cp "$SOURCE_CRT" "$DEST_CRT"
         cp "$SOURCE_KEY" "$DEST_KEY"
 
-        echo "Files copied successfully."
+        echo -e "${GREEN}Files copied successfully.${NC}"
         sudo rm /var/lib/icinga2/certs/*
-        echo "First step complete."
+        echo -e "${GREEN}First step complete.${NC}"
         echo -e "${RED}Restart the container. ${BLUE}You need to run setup.sh again!${NC}"
     else
         echo "Files match. No action required."
@@ -67,9 +67,42 @@ check_icinga2_config_writable() {
         echo -e "${GREEN}Icinga2 configuration is read-only.${NC}"
         change_notice
     else
-        icinga2 node wizard
+        #icinga2 node wizard
+        connect_to_master
         update_icinga2_config
     fi
+}
+
+
+connect_to_master() {
+
+    # Obtain certificate of Master 1
+    icinga2 pki save-cert --host "i2m1" --port 5665 --key i2m1.key \
+    --cert i2m1.crt --trustedcert /var/lib/icinga2/certs/i2m1.crt
+
+    # Get the hostname for JSON body of curl request
+    hostname=$(hostname)
+
+    # Get ticket from Master 1 (sed/awk)
+    ticket=$(curl -k -s -S -i -u root:123456 -H 'Accept: application/json' \
+    -X POST "https://i2m1:5665/v1/actions/generate-ticket" \
+    -d "{ \"cn\": \"$hostname\", \"pretty\": true }" | sed -n \
+    's/.*"ticket": "\(.*\)".*/\1/p')
+    echo -e "Generated PKI Ticket for $hostname: ${GREEN}$ticket${NC}"
+
+    icinga2 node setup \
+      --zone "$(hostname)" \
+      --endpoint "i2m1,i2m1,5665" \
+      --parent_host "i2m1,5665" \
+      --parent_zone "master" \
+      --ticket "$ticket" \
+      --cn "$(hostname)" \
+      --accept-config \
+      --accept-commands \
+      --global_zones "global-templates,director-global" \
+      --disable-confd \
+      --trustedcert /var/lib/icinga2/certs/i2m1.crt 
+
 }
 
 # Function to update icinga2 configuration
@@ -78,17 +111,18 @@ update_icinga2_config() {
     sudo rm -rf /etc/icinga2
     sudo ln -sv /mnt/icinga2 /etc/icinga2 > /dev/null
     #change_notice
-    echo -e "${GREEN}Setup of i2m1 is complete.${NC}"
+    echo -e "${GREEN}Setup of i2m2 is complete.${NC}"
     echo -e "${RED}Restart the container!${NC}"
 }
+
 
 # Function to display important notice
 change_notice() {
     echo "--------------------------------------"
-    echo "IMPORTANT NOTICE:"
+    echo -e "${BLUE}IMPORTANT NOTICE:${NC}"
     echo "The configuration for Icinga2 cannot be modified directly inside the container."
-    echo -e "To make changes, modify ${BLUE}./i2m1/etc/${NC} configuration files in the Docker Compose repository."
-    echo -e "${RED}Restart i2m1 for any changes to take effect.${NC}"
+    echo -e "To make changes, modify ${RED}./i2m1/etc/${NC} configuration files in the Docker Compose repository."
+    echo -e "${BLUE}Restart i2m1 for any changes to take effect.${NC}"
     echo "--------------------------------------"
 }
 

@@ -36,7 +36,7 @@ sync_ca_files() {
 
     # Compare CA certificate and key with destination
     if ! cmp -s "$SOURCE_CRT" "$DEST_CRT" || ! cmp -s "$SOURCE_KEY" "$DEST_KEY"; then
-        echo -e "${BLUE}Files do not match. Copying to shared location...${NC}"
+        echo -e "${BLUE}Files do not match. Copying i2m1 cert to shared location...${NC}"
         cp "$SOURCE_CRT" "$DEST_CRT"
         cp "$SOURCE_KEY" "$DEST_KEY"
         echo -e "${GREEN}Files copied successfully.${NC}"
@@ -65,6 +65,7 @@ check_icinga2_config_writable() {
     fi
 }
 
+
 # Function to update icinga2 configuration
 update_icinga2_config() {
     echo -e "${BLUE}Updating Icinga2 configuration...${NC}"
@@ -78,13 +79,14 @@ update_icinga2_config() {
 # Function to display important notice
 change_notice() {
     echo "--------------------------------------"
-    echo "IMPORTANT NOTICE:"
+    echo -e "${BLUE}IMPORTANT NOTICE:${NC}"
     echo "The configuration for Icinga2 cannot be modified directly inside the container."
-    echo -e "To make changes, modify ${BLUE}./i2m1/etc/${NC} configuration files in the Docker Compose repository."
-    echo -e "${RED}Restart i2m1 for any changes to take effect.${NC}"
+    echo -e "To make changes, modify ${RED}./i2m1/etc/${NC} configuration files in the Docker Compose repository."
+    echo -e "${BLUE}Restart i2m1 for any changes to take effect.${NC}"
     echo "--------------------------------------"
 }
 
 # Execute functions
 sync_ca_files
 check_icinga2_config_writable
+

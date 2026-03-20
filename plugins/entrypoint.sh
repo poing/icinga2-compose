@@ -1,5 +1,6 @@
 #!/bin/sh
 
+ln -sv /usr/lib/nagios/plugins/check_redis /usr/lib/nagios/plugins/check_redis.pl
 cp -r /usr/lib/nagios/plugins /shared_plugins/
 
 

@@ -48,6 +48,42 @@ sync_ca_files() {
 
 }
 
+
+connect_to_master() {
+
+    # Obtain certificate of Master 1
+    icinga2 pki save-cert --host "i2m1" --port 5665 --key i2m1.key \
+    --cert i2m1.crt --trustedcert /var/lib/icinga2/certs/i2m1.crt
+
+    # Obtain certificate of Master 2
+    icinga2 pki save-cert --host "i2m2" --port 5665 --key i2m2.key \
+    --cert i2m2.crt --trustedcert /var/lib/icinga2/certs/i2m2.crt
+
+    # Get the hostname for JSON body of curl request
+    hostname=$(hostname)
+
+    # Get ticket from Master 1 (sed/awk)
+    ticket=$(curl -k -s -S -i -u root:123456 -H 'Accept: application/json' \
+    -X POST "https://i2m1:5665/v1/actions/generate-ticket" \
+    -d "{ \"cn\": \"$hostname\", \"pretty\": true }" | sed -n \
+    's/.*"ticket": "\(.*\)".*/\1/p')
+    echo -e "Generated PKI Ticket for $hostname: ${GREEN}$ticket${NC}"
+
+    icinga2 node setup \
+      --zone "$(hostname)" \
+      --endpoint "i2m1,i2m1,5665" \
+      --parent_host "i2m1,5665" \
+      --parent_zone "master" \
+      --ticket "$ticket" \
+      --cn "$(hostname)" \
+      --accept-config \
+      --accept-commands \
+      --global_zones "global-templates,director-global" \
+      --disable-confd \
+      --trustedcert /var/lib/icinga2/certs/i2m1.crt 
+
+}
+
 # Function to check if /etc/icinga/ is using the read-only symlink
 check_icinga2_config_writable() {
     # Define the file to check
@@ -63,7 +99,8 @@ check_icinga2_config_writable() {
     if [ -r "$ZONE_FILE" ] && [ ! -w "$ZONE_FILE" ]; then
         echo -e "${GREEN}Icinga2 configuration is read-only.${NC}"
     else
-        icinga2 node wizard
+        #icinga2 node wizard
+        connect_to_master
         update_icinga2_config
     fi
 }
