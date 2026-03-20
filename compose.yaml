@@ -83,7 +83,8 @@ services:
         #- ./i2s1:/mnt/i2s1
         #- ./i2s2:/mnt/i2s2
         - ./:/mnt/icinga2-compose
-        - ./nrpe/check_nrpe:/usr/lib/nagios/plugins/check_nrpe
+        #- ./nrpe/check_nrpe:/usr/lib/nagios/plugins/check_nrpe
+        #- ./shared/check_redis.pl:/usr/lib/nagios/plugins/check_redis.pl
         
         #- ./:/mnt/
         # Provide root password: 123456
@@ -118,13 +119,13 @@ services:
       - middle-tier
     volumes: *root-access        
 
-  i2a1:
-    extends:
-      file: ./i2a1/compose.yaml
-      service: i2a1
-    networks:
-      - middle-tier
-    volumes: *root-access       
+#  i2a1:
+#    extends:
+#      file: ./i2a1/compose.yaml
+#      service: i2a1
+#    networks:
+#      - middle-tier
+#    volumes: *root-access       
 
 
   icingaweb2:

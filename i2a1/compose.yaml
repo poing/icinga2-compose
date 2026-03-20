@@ -10,4 +10,5 @@ services:
       - ./etc:/mnt/icinga2:ro      
     depends_on:
       - i2m1
-      - i2m2      
+      - i2m2
+    

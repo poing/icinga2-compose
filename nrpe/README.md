@@ -32,3 +32,14 @@ docker container prune
 docker image prune -a
 docker volume prune
 ```
+
+
+---
+
+#### Notes
+
+```sh
+    sudo apt-get update
+    sudo apt-get install -y monitoring-plugins-contrib
+    sudo ln -sv /usr/lib/nagios/plugins/check_redis /usr/lib/nagios/plugins/check_redis.pl
+```

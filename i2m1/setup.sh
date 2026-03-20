@@ -11,6 +11,7 @@ NC='\033[0m' # No Color
 
 # Function to check and sync CA certificate and key
 sync_ca_files() {
+
     # Define source and destination directories
     SOURCE_DIR="/var/lib/icinga2/ca/"
     DEST_DIR="/mnt/icinga2-compose/i2m1/ca/"
